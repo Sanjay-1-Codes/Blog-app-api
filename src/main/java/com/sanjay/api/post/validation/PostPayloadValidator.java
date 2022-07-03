@@ -7,13 +7,24 @@ import java.util.Objects;
 public class PostPayloadValidator {
 
     public static void validatePostPayloadForCreate(PostDto postDto) {
-        validateId(postDto.getId());
+        validateIdForCreate(postDto.getId());
         validateTitle(postDto.getTitle());
         validateDescription(postDto.getDescription());
         validateContent(postDto.getContent());
     }
 
-    private static void validateId(String id) {
+    public static void validatePostPayloadForUpdate(PostDto postDto) {
+        validateIdForUpdate(postDto.getId());
+        validateTitle(postDto.getTitle());
+        validateDescription(postDto.getDescription());
+        validateContent(postDto.getContent());
+    }
+
+    private static void validateIdForUpdate(String id) {
+        shouldNotBeNull("Id for post during create", id);
+    }
+
+    private static void validateIdForCreate(String id) {
         shouldBeNull("Id for post during create", id);
     }
 
@@ -29,13 +40,13 @@ public class PostPayloadValidator {
         shouldNotBeNull("title for post", title);
     }
 
-    public static void shouldNotBeNull(String message, Object object) {
+    private static void shouldNotBeNull(String message, Object object) {
         if(Objects.isNull(object)) {
             throw new IllegalArgumentException(message + " must not be null");
         }
     }
 
-    public static void shouldBeNull(String message, Object object) {
+    private static void shouldBeNull(String message, Object object) {
         if(Objects.nonNull(object)) {
             throw new IllegalArgumentException(message + " must be null");
         }
