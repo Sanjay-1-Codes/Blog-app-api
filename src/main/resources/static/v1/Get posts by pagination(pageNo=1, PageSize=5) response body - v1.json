@@ -1,0 +1,39 @@
+{
+    "posts": [
+        {
+            "id": "7",
+            "title": "Post 7 create",
+            "description": "Checking seventh post",
+            "content": "Post controller save api is tested using this JSON"
+        },
+        {
+            "id": "8",
+            "title": "Post 8 create",
+            "description": "Checking eighth post",
+            "content": "Post controller save api is tested using this JSON"
+        },
+        {
+            "id": "9",
+            "title": "Post 9 create",
+            "description": "Checking ninth post",
+            "content": "Post controller save api is tested using this JSON"
+        },
+        {
+            "id": "10",
+            "title": "Post 10 create",
+            "description": "Checking tenth post",
+            "content": "Post controller save api is tested using this JSON"
+        },
+        {
+            "id": "11",
+            "title": "Post 11 create",
+            "description": "Checking eleventh post",
+            "content": "Post controller save api is tested using this JSON"
+        }
+    ],
+    "pageNo": 1,
+    "pageSize": 5,
+    "totalElements": 12,
+    "totalPages": 2,
+    "last": false
+}

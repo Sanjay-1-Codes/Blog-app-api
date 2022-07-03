@@ -1,6 +1,7 @@
 package com.sanjay.api.post.controller;
 
 import com.sanjay.api.post.presentation.PostDto;
+import com.sanjay.api.post.presentation.PostPaginationResponse;
 import com.sanjay.api.post.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,9 +26,20 @@ public class PostController {
         return new ResponseEntity<>(postService.savePost(postDto), HttpStatus.CREATED);
     }
 
+    /*Pagination and Sorting are required mainly to display is tabular format.
+    Get all posts api is altered to have query parameters for pagination and sorting support, query parameters are optional,
+    so default values are to be instantiated whenever needed (page num = 0, page size = 10)*/
     @GetMapping
     public ResponseEntity<List<PostDto>> getAllPosts() {
         return new ResponseEntity<>(postService.getAllPosts(), HttpStatus.OK);
+    }
+
+    @GetMapping("/pagination")
+    public ResponseEntity<PostPaginationResponse> getPostsByPageNoAndPageSize(
+            @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
+            @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize
+    ) {
+        return new ResponseEntity<>(postService.getPostsByPagination(pageNo, pageSize), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
