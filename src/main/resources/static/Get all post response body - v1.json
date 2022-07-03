@@ -1,0 +1,26 @@
+[
+    {
+        "id": "1",
+        "title": "Post 1 create",
+        "description": "Checking first post",
+        "content": "Post controller save api is tested using this JSON"
+    },
+    {
+        "id": "2",
+        "title": "Post 2 create",
+        "description": "Checking second post",
+        "content": "Post controller save api is tested using this JSON"
+    },
+    {
+        "id": "3",
+        "title": "Post 3 create",
+        "description": "Checking third post",
+        "content": "Post controller save api is tested using this JSON"
+    },
+    {
+        "id": "4",
+        "title": "Post 4 create",
+        "description": "Checking fourth post",
+        "content": "Post controller save api is tested using this JSON"
+    }
+]

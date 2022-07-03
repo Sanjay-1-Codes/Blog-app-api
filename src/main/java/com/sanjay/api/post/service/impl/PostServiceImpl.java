@@ -9,6 +9,8 @@ import com.sanjay.api.post.validation.PostPayloadValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 //Preferred injection is constructor injection
 
 @Service
@@ -29,5 +31,11 @@ public class PostServiceImpl implements PostService {
         PostPayloadValidator.validatePostPayloadForCreate(postDto);
         Post createdPost = postRepository.save(postConverter.postDtoToDomain(postDto));
         return postConverter.postDomainToDto(createdPost);
+    }
+
+    @Override
+    public List<PostDto> getAllPosts() {
+        List<Post> posts = postRepository.findAll();
+        return postConverter.postsToPostDtoList(posts);
     }
 }

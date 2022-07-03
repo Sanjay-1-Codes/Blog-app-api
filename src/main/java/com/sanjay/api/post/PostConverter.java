@@ -3,8 +3,11 @@ package com.sanjay.api.post;
 import com.sanjay.api.post.domain.Post;
 import com.sanjay.api.post.presentation.PostDto;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Component
 public class PostConverter {
@@ -30,6 +33,13 @@ public class PostConverter {
             postDto.setContent(post.getContent());
             postDto.setDescription(post.getDescription());
             return  postDto;
+        }
+        return null;
+    }
+
+    public List<PostDto> postsToPostDtoList(List<Post> posts) {
+        if(!CollectionUtils.isEmpty(posts)) {
+            return posts.stream().map(post -> postDomainToDto(post)).collect(Collectors.toList());
         }
         return null;
     }
