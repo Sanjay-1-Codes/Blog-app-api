@@ -1,5 +1,6 @@
 package com.sanjay.api.post.validation;
 
+import com.sanjay.api.post.exception.IllegalClientArgumentException;
 import com.sanjay.api.post.presentation.PostDto;
 
 import java.util.Objects;
@@ -18,6 +19,19 @@ public class PostPayloadValidator {
         validateTitle(postDto.getTitle());
         validateDescription(postDto.getDescription());
         validateContent(postDto.getContent());
+    }
+
+    public static void validatePageNoAndPageSize(int pageNo, int pageSize) {
+        validatePageNo(pageNo);
+        validatePageSize(pageSize);
+    }
+
+    private static void validatePageSize(int pageSize) {
+        shouldBeGreaterThanZero("Page size", pageSize);
+    }
+
+    private static void validatePageNo(int pageNo) {
+        shouldBeGreaterThanOrEqualToZero("Page number", pageNo);
     }
 
     private static void validateIdForUpdate(String id) {
@@ -42,13 +56,25 @@ public class PostPayloadValidator {
 
     private static void shouldNotBeNull(String message, Object object) {
         if(Objects.isNull(object)) {
-            throw new IllegalArgumentException(message + " must not be null");
+            throw new IllegalClientArgumentException(message + " must not be null");
         }
     }
 
     private static void shouldBeNull(String message, Object object) {
         if(Objects.nonNull(object)) {
-            throw new IllegalArgumentException(message + " must be null");
+            throw new IllegalClientArgumentException(message + " must be null");
+        }
+    }
+
+    private static void shouldBeGreaterThanOrEqualToZero(String message, int number) {
+        if(number < 0) {
+            throw new IllegalClientArgumentException(message + " must be greater than equal to zero ");
+        }
+    }
+
+    private static void shouldBeGreaterThanZero(String message, int number) {
+        if(number <= 0) {
+            throw new IllegalClientArgumentException(message + " must be greater than zero ");
         }
     }
 }

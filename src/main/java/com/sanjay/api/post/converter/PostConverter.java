@@ -1,7 +1,9 @@
-package com.sanjay.api.post;
+package com.sanjay.api.post.converter;
 
 import com.sanjay.api.post.domain.Post;
 import com.sanjay.api.post.presentation.PostDto;
+import com.sanjay.api.post.presentation.PostPaginationResponse;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
@@ -52,5 +54,19 @@ public class PostConverter {
         target.setTitle(source.getTitle());
         target.setContent(source.getContent());
         return target;
+    }
+    /*
+    Post pagination starts with page 0 and moves on, but the Page<Post> gives current pageNo based on start 0
+    and Total pages value starting from 1. To make it uniform subtract 1 from the returned value
+     */
+    public PostPaginationResponse pageOfPostsToPostPaginationResponse(Page<Post> posts) {
+        return PostPaginationResponse.builder()
+                .posts(postsToPostDtoList(posts.toList()))
+                .pageNo(posts.getNumber())
+                .pageSize(posts.getSize())
+                .totalElements(posts.getTotalElements())
+                .totalPages(posts.getTotalPages() - 1)
+                .isLast(posts.isLast())
+                .build();
     }
 }

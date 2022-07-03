@@ -1,20 +1,22 @@
 package com.sanjay.api.post.service.impl;
 
-import com.sanjay.api.post.PostConverter;
+import com.sanjay.api.post.converter.PostConverter;
 import com.sanjay.api.post.domain.Post;
 import com.sanjay.api.post.exception.IllegalClientArgumentException;
 import com.sanjay.api.post.exception.ResourceNotFoundException;
 import com.sanjay.api.post.presentation.PostDto;
+import com.sanjay.api.post.presentation.PostPaginationResponse;
 import com.sanjay.api.post.repository.PostRepository;
 import com.sanjay.api.post.service.PostService;
 import com.sanjay.api.post.validation.PostPayloadValidator;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.Optional;
 
 //Preferred injection is constructor injection
 
@@ -45,12 +47,20 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public PostPaginationResponse getPostsByPagination(int pageNo, int pageSize) {
+        PostPayloadValidator.validatePageNoAndPageSize(pageNo, pageSize);
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        Page<Post> pageOfPosts = postRepository.findAll(pageable);
+        return postConverter.pageOfPostsToPostPaginationResponse(pageOfPosts);
+    }
+
+    @Override
     public PostDto getPostById(String id) {
         if(!StringUtils.isEmpty(id)) {
             Post post = postRepository.findById(Long.valueOf(id)).orElseThrow(() -> new ResourceNotFoundException("Post", "Id", id));
             return postConverter.postDomainToDto(post);
         }
-        throw new IllegalClientArgumentException("Id must not be null/empty");
+        throw new IllegalClientArgumentException("Post Id must not be null/empty");
     }
 
     @Override
