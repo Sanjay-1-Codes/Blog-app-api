@@ -9,4 +9,10 @@ public interface PostService {
     PostDto savePost(PostDto postDto);
 
     List<PostDto> getAllPosts();
+
+    PostDto getPostById(String id);
+
+    PostDto updatePost(PostDto postDto, String id);
+
+    String deletePostById(String id);
 }
