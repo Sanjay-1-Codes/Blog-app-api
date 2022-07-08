@@ -1,10 +1,12 @@
 package com.sanjay.api.post.domain;
 
+import com.sanjay.api.post.comment.domain.Comment;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 /*
 A composite unique key is a unique key made up of a combination of columns.
@@ -36,4 +38,7 @@ public class Post {
 
     @Column(name = "content", nullable = false)
     private String content;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    private List<Comment> comments;
 }

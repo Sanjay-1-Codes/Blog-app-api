@@ -1,8 +1,11 @@
 package com.sanjay.api.post.presentation;
 
+import com.sanjay.api.post.comment.presentation.CommentDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 @NoArgsConstructor
 @Getter
@@ -16,6 +19,8 @@ public class PostDto {
     private String description;
 
     private String content;
+
+    private List<CommentDto> comments;
 
 
 }

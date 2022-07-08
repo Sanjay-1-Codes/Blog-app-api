@@ -1,9 +1,13 @@
 package com.sanjay.api.post.validation;
 
+import com.sanjay.api.post.constants.PostSortConstants;
 import com.sanjay.api.post.exception.IllegalClientArgumentException;
 import com.sanjay.api.post.presentation.PostDto;
 
-import java.util.Objects;
+import java.util.Arrays;
+
+import static com.sanjay.api.utils.NullCheckUtils.shouldBeNull;
+import static com.sanjay.api.utils.NullCheckUtils.shouldNotBeNull;
 
 public class PostPayloadValidator {
 
@@ -21,9 +25,14 @@ public class PostPayloadValidator {
         validateContent(postDto.getContent());
     }
 
-    public static void validatePageNoAndPageSize(int pageNo, int pageSize) {
+    public static void validatePageNoPageSizeAndSortBy(int pageNo, int pageSize, String sortBy) {
         validatePageNo(pageNo);
         validatePageSize(pageSize);
+        validateSortBy(sortBy);
+    }
+
+    private static void validateSortBy(String sortBy) {
+        shouldBeInPredefinedEnum("Sort by query parameter",sortBy);
     }
 
     private static void validatePageSize(int pageSize) {
@@ -54,18 +63,6 @@ public class PostPayloadValidator {
         shouldNotBeNull("title for post", title);
     }
 
-    private static void shouldNotBeNull(String message, Object object) {
-        if(Objects.isNull(object)) {
-            throw new IllegalClientArgumentException(message + " must not be null");
-        }
-    }
-
-    private static void shouldBeNull(String message, Object object) {
-        if(Objects.nonNull(object)) {
-            throw new IllegalClientArgumentException(message + " must be null");
-        }
-    }
-
     private static void shouldBeGreaterThanOrEqualToZero(String message, int number) {
         if(number < 0) {
             throw new IllegalClientArgumentException(message + " must be greater than equal to zero ");
@@ -76,5 +73,15 @@ public class PostPayloadValidator {
         if(number <= 0) {
             throw new IllegalClientArgumentException(message + " must be greater than zero ");
         }
+    }
+
+    private static void shouldBeInPredefinedEnum(String message, String target) {
+        boolean notContains = Arrays.stream(PostSortConstants.values())
+                           .filter(enumValue -> enumValue.getValue().equalsIgnoreCase(target))
+                           .findFirst().isEmpty();
+        if(notContains) {
+            throw new IllegalClientArgumentException(message + " should be in the predefined list");
+        }
+
     }
 }

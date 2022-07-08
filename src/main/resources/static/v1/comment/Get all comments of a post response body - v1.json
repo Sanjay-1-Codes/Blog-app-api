@@ -1,0 +1,20 @@
+[
+    {
+        "id": "1",
+        "name": "checkUser",
+        "email": "check@gmail.com",
+        "message": "Comment 1 post 1"
+    },
+    {
+        "id": "2",
+        "name": "checkUser",
+        "email": "check@gmail.com",
+        "message": "Comment 2 post 1"
+    },
+    {
+        "id": "3",
+        "name": "checkUser",
+        "email": "check@gmail.com",
+        "message": "Comment 3 post 1"
+    }
+]

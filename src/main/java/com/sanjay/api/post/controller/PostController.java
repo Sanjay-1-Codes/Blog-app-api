@@ -10,6 +10,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.sanjay.api.utils.AppConstants.DEFAULT_PAGE_NO;
+import static com.sanjay.api.utils.AppConstants.DEFAULT_SORT_BY;
+import static com.sanjay.api.utils.AppConstants.DEFUALT_PAGE_SIZE;
+
 @RestController
 @RequestMapping("/api/posts")
 public class PostController {
@@ -26,7 +30,7 @@ public class PostController {
         return new ResponseEntity<>(postService.savePost(postDto), HttpStatus.CREATED);
     }
 
-    /*Pagination and Sorting are required mainly to display is tabular format.
+    /*Pagination and Sorting are required mainly to display in tabular format.
     Get all posts api is altered to have query parameters for pagination and sorting support, query parameters are optional,
     so default values are to be instantiated whenever needed (page num = 0, page size = 10)*/
     @GetMapping
@@ -35,11 +39,12 @@ public class PostController {
     }
 
     @GetMapping("/pagination")
-    public ResponseEntity<PostPaginationResponse> getPostsByPageNoAndPageSize(
-            @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
-            @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize
+    public ResponseEntity<PostPaginationResponse> getPostsByPageNoPageSizeAndSort(
+            @RequestParam(value = "pageNo", defaultValue = DEFAULT_PAGE_NO, required = false) int pageNo,
+            @RequestParam(value = "pageSize", defaultValue = DEFUALT_PAGE_SIZE, required = false) int pageSize,
+            @RequestParam(value = "sortBy", defaultValue = DEFAULT_SORT_BY, required = false) String sortBy
     ) {
-        return new ResponseEntity<>(postService.getPostsByPagination(pageNo, pageSize), HttpStatus.OK);
+        return new ResponseEntity<>(postService.getPostsByPaginationAndSort(pageNo, pageSize, sortBy), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
