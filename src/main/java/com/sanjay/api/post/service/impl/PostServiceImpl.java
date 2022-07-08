@@ -14,9 +14,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+import static com.sanjay.api.utils.AppConstants.POST_ID;
+import static com.sanjay.api.utils.NullCheckUtils.shouldNotBeNullOrEmptyString;
 
 //Preferred injection is constructor injection
 
@@ -47,24 +51,25 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostPaginationResponse getPostsByPagination(int pageNo, int pageSize) {
-        PostPayloadValidator.validatePageNoAndPageSize(pageNo, pageSize);
-        Pageable pageable = PageRequest.of(pageNo, pageSize);
+    public PostPaginationResponse getPostsByPaginationAndSort(int pageNo, int pageSize, String sortBy) {
+        PostPayloadValidator.validatePageNoPageSizeAndSortBy(pageNo, pageSize, sortBy);
+        Sort sort = Sort.by(sortBy);
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
         Page<Post> pageOfPosts = postRepository.findAll(pageable);
         return postConverter.pageOfPostsToPostPaginationResponse(pageOfPosts);
     }
 
     @Override
-    public PostDto getPostById(String id) {
-        if(!StringUtils.isEmpty(id)) {
-            Post post = postRepository.findById(Long.valueOf(id)).orElseThrow(() -> new ResourceNotFoundException("Post", "Id", id));
-            return postConverter.postDomainToDto(post);
-        }
-        throw new IllegalClientArgumentException("Post Id must not be null/empty");
+    public PostDto getPostById(String postId) {
+        shouldNotBeNullOrEmptyString(POST_ID, postId);
+        Post post = postRepository.findById(Long.valueOf(postId)).orElseThrow(() -> new ResourceNotFoundException("Post", "Id", postId));
+        return postConverter.postDomainToDto(post);
+
     }
 
     @Override
     public PostDto updatePost(PostDto postDto, String id) {
+        shouldNotBeNullOrEmptyString(POST_ID, id);
         PostPayloadValidator.validatePostPayloadForUpdate(postDto);
         Post post = postRepository.findById(Long.valueOf(id)).orElseThrow(() -> new ResourceNotFoundException("Post", "Id", id));
         Post updatedPost = postRepository.save(postConverter.populatePostDomain(postDto,post));
@@ -73,11 +78,9 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public String deletePostById(String id) {
-        if(!StringUtils.isEmpty(id)) {
-            Post post = postRepository.findById(Long.valueOf(id)).orElseThrow(() -> new ResourceNotFoundException("Post", "Id", id));
-            postRepository.delete(post);
-            return String.format("Post with id : %s deleted successfully", id);
-        }
-        throw new IllegalClientArgumentException("Id must not be null/empty");
+        shouldNotBeNullOrEmptyString(POST_ID, id);
+        Post post = postRepository.findById(Long.valueOf(id)).orElseThrow(() -> new ResourceNotFoundException("Post", "Id", id));
+        postRepository.delete(post);
+        return String.format("Post with id : %s deleted successfully", id);
     }
 }

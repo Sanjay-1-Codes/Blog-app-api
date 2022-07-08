@@ -19,4 +19,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ExceptionMessage> resourceNotFoundException(ResourceNotFoundException ex) {
         return new ResponseEntity<>(new ExceptionMessage(ex.getMessage()), HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(NumberFormatException.class)
+    public ResponseEntity<ExceptionMessage> numberFormatException(NumberFormatException ex) {
+        return new ResponseEntity<>(new ExceptionMessage(ex.getMessage()), HttpStatus.BAD_REQUEST);
+    }
 }
