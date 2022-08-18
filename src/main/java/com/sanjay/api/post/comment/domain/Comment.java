@@ -17,6 +17,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+
+//@JoinColumn denoted foreign key relationship
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

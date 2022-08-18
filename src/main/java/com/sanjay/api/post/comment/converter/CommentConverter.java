@@ -2,15 +2,12 @@ package com.sanjay.api.post.comment.converter;
 
 import com.sanjay.api.post.comment.domain.Comment;
 import com.sanjay.api.post.comment.presentation.CommentDto;
-import com.sanjay.api.post.domain.Post;
-import com.sanjay.api.post.presentation.PostDto;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Component
 public class CommentConverter {
@@ -42,7 +39,7 @@ public class CommentConverter {
 
     public List<CommentDto> commentsToCommentDtoList(List<Comment> comments) {
         if(!CollectionUtils.isEmpty(comments)) {
-            return comments.stream().map(post -> commentDomainToDto(post)).collect(Collectors.toList());
+            return comments.stream().map(post -> commentDomainToDto(post)).toList();
         }
         return null;
     }

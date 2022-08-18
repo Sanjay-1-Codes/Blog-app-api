@@ -2,14 +2,12 @@ package com.sanjay.api.post.service.impl;
 
 import com.sanjay.api.post.converter.PostConverter;
 import com.sanjay.api.post.domain.Post;
-import com.sanjay.api.post.exception.IllegalClientArgumentException;
 import com.sanjay.api.post.exception.ResourceNotFoundException;
 import com.sanjay.api.post.presentation.PostDto;
 import com.sanjay.api.post.presentation.PostPaginationResponse;
 import com.sanjay.api.post.repository.PostRepository;
 import com.sanjay.api.post.service.PostService;
 import com.sanjay.api.post.validation.PostPayloadValidator;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

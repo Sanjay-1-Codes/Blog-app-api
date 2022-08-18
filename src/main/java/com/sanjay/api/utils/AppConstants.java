@@ -2,6 +2,8 @@ package com.sanjay.api.utils;
 
 public class AppConstants {
 
+    private AppConstants() {}
+
     public static final String DEFAULT_PAGE_NO = "0";
     public static final String DEFUALT_PAGE_SIZE = "10";
     public static final String DEFAULT_SORT_BY = "id";
