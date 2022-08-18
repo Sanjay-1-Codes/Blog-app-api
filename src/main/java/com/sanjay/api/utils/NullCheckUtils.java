@@ -7,6 +7,8 @@ import java.util.Objects;
 
 public class NullCheckUtils {
 
+    private NullCheckUtils() {}
+
     public static void shouldNotBeNull(String message, Object object) {
         if(Objects.isNull(object)) {
             throw new IllegalClientArgumentException(message + " must not be null");

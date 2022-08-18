@@ -8,8 +8,11 @@ import java.util.Arrays;
 
 import static com.sanjay.api.utils.NullCheckUtils.shouldBeNull;
 import static com.sanjay.api.utils.NullCheckUtils.shouldNotBeNull;
+import static com.sanjay.api.utils.NullCheckUtils.shouldNotBeNullOrEmptyString;
 
 public class PostPayloadValidator {
+
+    private PostPayloadValidator() {}
 
     public static void validatePostPayloadForCreate(PostDto postDto) {
         validateIdForCreate(postDto.getId());
@@ -52,15 +55,15 @@ public class PostPayloadValidator {
     }
 
     private static void validateContent(String content) {
-        shouldNotBeNull("Content for post", content);
+        shouldNotBeNullOrEmptyString("Content for post", content);
     }
 
     private static void validateDescription(String description) {
-        shouldNotBeNull("Description for post", description);
+        shouldNotBeNullOrEmptyString("Description for post", description);
     }
 
     private static void validateTitle(String title) {
-        shouldNotBeNull("title for post", title);
+        shouldNotBeNullOrEmptyString("title for post", title);
     }
 
     private static void shouldBeGreaterThanOrEqualToZero(String message, int number) {
